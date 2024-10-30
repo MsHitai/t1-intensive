@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: db.changelog-create-table.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: db.changelog-fill-test-data.yaml
+      relativeToChangelogFile: true

@@ -1,0 +1,161 @@
+databaseChangeLog:
+  - changeSet:
+      id: '202410301928'
+      author: 'Maria Trushanina'
+      preConditions:
+        - onFail: WARN
+        - not:
+            - tableExists:
+                tableName: clients
+      changes:
+        - createTable:
+            tableName: 'clients'
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: clients_id_pk
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: middle_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: blocked_for
+                  type: boolean
+                  constraints:
+                    nullable: true
+              - column:
+                  name: blocked_whom
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+
+  - changeSet:
+      id: '202410301929'
+      author: 'Maria Trushanina'
+      preConditions:
+        - onFail: WARN
+        - not:
+            - tableExists:
+                tableName: accounts
+      changes:
+        - createTable:
+            tableName: 'accounts'
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: accounts_id_pk
+                    nullable: false
+              - column:
+                  name: client_id
+                  type: bigint
+                  constraints:
+                    referencedTableName: clients
+                    referencedColumnNames: id
+                    foreignKeyName: accounts_to_clients_fk
+                    nullable: false
+              - column:
+                  name: account_type
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: balance
+                  type: decimal(19,2)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: '202410301930'
+      author: 'Maria Trushanina'
+      preConditions:
+        - onFail: WARN
+        - not:
+            - tableExists:
+                tableName: transactions
+      changes:
+        - createTable:
+            tableName: 'transactions'
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: transactions_id_pk
+                    nullable: false
+              - column:
+                  name: account_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: accounts_to_transactions_fk
+                    referencedColumnNames: id
+                    referencedTableName: accounts
+                    nullable: false
+              - column:
+                  name: amount
+                  type: decimal(19,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: transaction_time
+                  type: timestamp without time zone
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: '202410301931'
+      author: 'Maria Trushanina'
+      preConditions:
+        - onFail: WARN
+        - not:
+            - tableExists:
+                tableName: error_logs
+      changes:
+        - createTable:
+            tableName: 'error_logs'
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: error_logs_id_pk
+                    nullable: false
+              - column:
+                  name: stack_trace
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: message
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: method_signature
+                  type: varchar(150)
+                  constraints:
+                    nullable: false

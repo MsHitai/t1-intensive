@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: intensive
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/t1_db
+    username: t1
+    password: t1
+
+  liquibase:
+    enabled: true
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+logging:
+  level:
+    sql: trace
+    org.hibernate: trace

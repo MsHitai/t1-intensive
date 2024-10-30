@@ -1,0 +1,147 @@
+databaseChangeLog:
+  - changeSet:
+      id: '202410302042'
+      author: 'Maria Trushanina'
+      changes:
+        - insert:
+            tableName: clients
+            columns:
+              - column:
+                  name: first_name
+                  value: John
+              - column:
+                  name: last_name
+                  value: Doe
+              - column:
+                  name: middle_name
+                  value: A.
+              - column:
+                  name: blocked_for
+                  valueBoolean: "false"
+        - insert:
+            tableName: clients
+            columns:
+              - column:
+                  name: first_name
+                  value: Mike
+              - column:
+                  name: last_name
+                  value: Boe
+              - column:
+                  name: middle_name
+                  value: A.
+              - column:
+                  name: blocked_for
+                  valueBoolean: "false"
+        - insert:
+            tableName: clients
+            columns:
+              - column:
+                  name: first_name
+                  value: John
+              - column:
+                  name: last_name
+                  value: Coe
+              - column:
+                  name: middle_name
+                  value: A.
+              - column:
+                  name: blocked_for
+                  valueBoolean: "true"
+        - insert:
+            tableName: clients
+            columns:
+              - column:
+                  name: first_name
+                  value: Johnny
+              - column:
+                  name: last_name
+                  value: Cage
+              - column:
+                  name: middle_name
+                  value: A.
+              - column:
+                  name: blocked_for
+                  valueBoolean: "false"
+
+  - changeSet:
+      id: '202410302048'
+      author: 'Maria Trushanina'
+      changes:
+        - insert:
+            tableName: accounts
+            columns:
+              - column:
+                  name: client_id
+                  value: 1
+              - column:
+                  name: account_type
+                  value: DEBIT
+              - column:
+                  name: balance
+                  valueNumeric: "1000.00"
+        - insert:
+            tableName: accounts
+            columns:
+              - column:
+                  name: client_id
+                  value: 2
+              - column:
+                  name: account_type
+                  value: CREDIT
+              - column:
+                  name: balance
+                  valueNumeric: "1200.00"
+        - insert:
+            tableName: accounts
+            columns:
+              - column:
+                  name: client_id
+                  value: 3
+              - column:
+                  name: account_type
+                  value: DEBIT
+              - column:
+                  name: balance
+                  valueNumeric: "1300.00"
+
+  - changeSet:
+      id: '202410302118'
+      author: 'Maria Trushanina'
+      changes:
+        - insert:
+            tableName: transactions
+            columns:
+              - column:
+                  name: account_id
+                  value: 1
+              - column:
+                  name: amount
+                  valueNumeric: '150.00'
+              - column:
+                  name: transaction_time
+                  valueDate: "2024-10-01T10:00:00"
+        - insert:
+            tableName: transactions
+            columns:
+              - column:
+                  name: account_id
+                  value: 2
+              - column:
+                  name: amount
+                  valueNumeric: '250.00'
+              - column:
+                  name: transaction_time
+                  valueDate: "2024-10-02T10:00:00"
+        - insert:
+            tableName: transactions
+            columns:
+              - column:
+                  name: account_id
+                  value: 3
+              - column:
+                  name: amount
+                  valueNumeric: '350.00'
+              - column:
+                  name: transaction_time
+                  valueDate: "2024-10-03T10:00:00"
