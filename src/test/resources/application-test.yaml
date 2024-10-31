@@ -3,7 +3,7 @@ spring:
     enabled: true
 
   datasource:
-    url: jdbc:postgresql://t1-database:6541/t1_db
+    url: jdbc:postgresql://localhost:6541/t1_db
     username: t1
     password: t1
     hikari:
