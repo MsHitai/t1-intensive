@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: '202410311914'
+      author: 'Maria Trushanina'
+      changes:
+        - modifyDataType:
+            catalogName: cat
+            columnName: message
+            newDataType: TEXT
+            schemaName: public
+            tableName: error_logs

@@ -4,11 +4,11 @@ import com.t1.intensive.annotation.LogDataSourceError;
 import com.t1.intensive.model.dto.AccountDto;
 import com.t1.intensive.service.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,5 +22,26 @@ public class AccountController {
     @LogDataSourceError
     public AccountDto findAccountById(@PathVariable Long id) {
         return accountService.getAccountById(id);
+    }
+
+    @GetMapping()
+    @Operation(summary = "Получить все счета по идентификатору клиента")
+    @LogDataSourceError
+    public List<AccountDto> findAllAccountsByClientId(@RequestParam(name = "clientId") Long clientId) {
+        return accountService.findAllAccountsByClientId(clientId);
+    }
+
+    @PostMapping()
+    @Operation(summary = "Добавление счета")
+    @LogDataSourceError
+    public AccountDto createAccount(@Valid @RequestBody AccountDto accountDto,
+                                    @RequestParam(name = "clientId") Long clientId) {
+        return accountService.createAccount(accountDto, clientId);
+    }
+
+    @Operation(summary = "Удалить счет по идентификатору")
+    @DeleteMapping("/{id}")
+    public void deleteAccount(@PathVariable Long id, @RequestParam(name = "clientId") Long clientId) {
+        accountService.deleteAccount(id, clientId);
     }
 }

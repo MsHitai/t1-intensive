@@ -6,6 +6,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/t1_db
     username: t1
     password: t1
+    hikari:
+      auto-commit: false
 
   liquibase:
     enabled: true
@@ -14,11 +16,11 @@ spring:
     hibernate:
       ddl-auto: validate
     open-in-view: false
+    show-sql: true
 
 logging:
   level:
-    sql: trace
-    org.hibernate: trace
+    org.hibernate.orm.jdbc.bind: trace
 
 springdoc:
   swagger-ui:

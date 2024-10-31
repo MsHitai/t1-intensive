@@ -33,10 +33,6 @@ public class Account {
     @Column(name = "balance", precision = 19, scale = 2)
     private BigDecimal balance;
 
-    @OneToOne(mappedBy = "account")
-    @ToString.Exclude
-    private Transaction transaction;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
