@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/transactions")
 public class TransactionController {
-    
+
     private final TransactionService transactionService;
 
     @GetMapping("/{id}")
@@ -34,9 +34,9 @@ public class TransactionController {
     @PostMapping()
     @Operation(summary = "Добавление транзакции")
     @LogDataSourceError
-    public TransactionDto createTransaction(@Valid @RequestBody TransactionDto TransactionDto,
-                                    @RequestParam(name = "accountId") Long accountId) {
-        return transactionService.createTransaction(TransactionDto, accountId);
+    public TransactionDto createTransaction(@Valid @RequestBody TransactionDto transactionDto,
+                                            @RequestParam(name = "accountId") Long accountId) {
+        return transactionService.createTransaction(transactionDto, accountId);
     }
 
     @Operation(summary = "Удалить транзакцию по идентификатору")
