@@ -5,3 +5,6 @@ databaseChangeLog:
   - include:
       file: db.changelog-fill-test-data.yaml
       relativeToChangelogFile: true
+  - include:
+      file: db.changelog-add-date.yaml
+      relativeToChangelogFile: true

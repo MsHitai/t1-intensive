@@ -7,6 +7,8 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Aspect
 @Component
@@ -17,8 +19,9 @@ public class LogDataSourceAspect {
     private final ErrorLogService service;
 
     @AfterThrowing(
-            pointcut = "@annotation(LogDataSourceError)",
+            pointcut = "@annotation(com.t1.intensive.annotation.LogDataSourceError)",
             throwing = "e")
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void logError(JoinPoint joinPoint, Exception e) {
         log.error("An error occurred while processing {}", joinPoint.getSignature().getName());
         service.saveErrorInfo(e, joinPoint.getSignature().toShortString());

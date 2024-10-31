@@ -2,7 +2,9 @@ package com.t1.intensive.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
@@ -27,6 +29,10 @@ public class DataSourceErrorLog {
 
     @Column(name = "method_signature", nullable = false)
     private String methodSignature;
+
+    @Column(name = "created_on", nullable = false)
+    @CreationTimestamp
+    private LocalDateTime createdOn;
 
     @Override
     public boolean equals(Object o) {

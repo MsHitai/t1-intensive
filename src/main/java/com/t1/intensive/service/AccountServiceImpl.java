@@ -1,6 +1,5 @@
 package com.t1.intensive.service;
 
-import com.t1.intensive.annotation.LogDataSourceError;
 import com.t1.intensive.exception.DataNotFoundException;
 import com.t1.intensive.mapper.AccountMapper;
 import com.t1.intensive.model.dto.AccountDto;
@@ -18,9 +17,8 @@ public class AccountServiceImpl implements AccountService {
     private final AccountMapper accountMapper;
 
     @Override
-    @Transactional
-    @LogDataSourceError
-    public AccountDto findAccountById(Long id) {
+    @Transactional(readOnly = true)
+    public AccountDto getAccountById(Long id) {
         return accountMapper.toAccountDto(accountRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Record not found")));
     }

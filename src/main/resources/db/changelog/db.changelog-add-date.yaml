@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: '20241031815'
+      author: 'Maria Trushanina'
+      changes:
+        - addColumn:
+            tableName: 'error_logs'
+            columns:
+              - column:
+                  name: created_on
+                  type: timestamp without time zone
+                  defaultValue: now()
+                  constraints:
+                    nullable: false

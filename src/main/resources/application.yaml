@@ -19,3 +19,7 @@ logging:
   level:
     sql: trace
     org.hibernate: trace
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
