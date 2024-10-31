@@ -1,3 +1,10 @@
 spring:
   liquibase:
-    enabled: false
+    enabled: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/t1_db
+    username: t1
+    password: t1
+    hikari:
+      auto-commit: false

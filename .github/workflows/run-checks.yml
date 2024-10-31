@@ -21,6 +21,14 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
+      - name: Run Docker Compose Build
+        run: |
+          docker compose -f docker-compose.yml build
+
+      - name: Run Docker Compose Up
+        run: |
+          docker compose -f docker-compose.yml up -d
+
       - name: Install Maven
         run: |
           sudo apt-get install -y maven
@@ -32,3 +40,7 @@ jobs:
       - name: Run Checkstyle
         run: |
           mvn checkstyle:check
+
+      - name: Run Docker Compose Down
+        run: |
+          docker compose -f docker-compose.yml down
