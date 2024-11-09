@@ -1,6 +1,7 @@
 package com.t1.intensive.controller;
 
 import com.t1.intensive.annotation.LogDataSourceError;
+import com.t1.intensive.annotation.Metric;
 import com.t1.intensive.model.dto.AccountDto;
 import com.t1.intensive.service.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,6 +21,7 @@ public class AccountController {
     @GetMapping("/{id}")
     @Operation(summary = "Получить счет по идентификатору")
     @LogDataSourceError
+    @Metric(limit = 1000L)
     public AccountDto findAccountById(@PathVariable Long id) {
         return accountService.getAccountById(id);
     }

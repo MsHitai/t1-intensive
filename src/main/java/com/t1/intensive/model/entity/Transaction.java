@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import static com.t1.intensive.util.ConstantsUtil.TRANSACTION_GRAPH;
+
 @Getter
 @ToString
 @Setter
@@ -15,6 +17,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "transactions")
+@NamedEntityGraph(name = TRANSACTION_GRAPH, attributeNodes = @NamedAttributeNode("account"))
 public class Transaction {
 
     @Id
