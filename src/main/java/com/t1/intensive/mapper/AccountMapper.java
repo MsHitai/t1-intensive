@@ -16,5 +16,6 @@ public interface AccountMapper {
     List<AccountDto> toAccountDtoList(List<Account> account);
 
     @Mapping(target = "client", ignore = true)
+    @Mapping(target = "client.id", source = "clientId")
     Account toAccountEntity(AccountDto accountDto);
 }

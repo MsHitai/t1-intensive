@@ -1,5 +1,6 @@
 package com.t1.intensive.model.entity;
 
+import com.t1.intensive.model.enumeration.TransactionStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,6 +36,10 @@ public class Transaction {
     @Column(name = "transaction_time")
     private LocalDateTime transactionTime;
 
+    @Column(name = "status")
+    @Enumerated(value = EnumType.STRING)
+    private TransactionStatus status;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -42,11 +47,12 @@ public class Transaction {
         Transaction that = (Transaction) o;
         return Objects.equals(id, that.id)
                 && Objects.equals(amount, that.amount)
-                && Objects.equals(transactionTime, that.transactionTime);
+                && Objects.equals(transactionTime, that.transactionTime)
+                && Objects.equals(status, that.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, amount, transactionTime);
+        return Objects.hash(id, amount, transactionTime, status);
     }
 }

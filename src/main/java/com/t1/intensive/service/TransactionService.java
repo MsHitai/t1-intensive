@@ -13,4 +13,8 @@ public interface TransactionService {
     TransactionDto createTransaction(TransactionDto transactionDto, Long accountId);
 
     void deleteTransaction(Long id, Long accountId);
+
+    void requestTransaction(TransactionDto dto);
+
+    void updateTransaction(TransactionDto dto);
 }

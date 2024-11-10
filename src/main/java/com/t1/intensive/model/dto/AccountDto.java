@@ -1,6 +1,7 @@
 package com.t1.intensive.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.t1.intensive.model.enumeration.AccountStatus;
 import com.t1.intensive.model.enumeration.AccountType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -22,4 +23,8 @@ public class AccountDto implements Serializable {
     private BigDecimal balance;
     @JsonProperty("client_id")
     private Long clientId;
+    @JsonProperty("status")
+    private AccountStatus status;
+    @JsonProperty("frozen_amount")
+    private BigDecimal frozenAmount;
 }

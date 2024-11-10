@@ -22,6 +22,9 @@ spring:
     open-in-view: false
     show-sql: true
 
+app:
+  limit: 5
+
 logging:
   level:
     org.hibernate.orm.jdbc.bind: trace

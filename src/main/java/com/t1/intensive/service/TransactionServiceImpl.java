@@ -1,18 +1,25 @@
 package com.t1.intensive.service;
 
+import com.t1.intensive.exception.DataConflictException;
 import com.t1.intensive.exception.DataNotFoundException;
 import com.t1.intensive.mapper.AccountMapper;
 import com.t1.intensive.mapper.TransactionMapper;
+import com.t1.intensive.model.dto.AccountDto;
+import com.t1.intensive.model.dto.TransactionAcceptDto;
 import com.t1.intensive.model.dto.TransactionDto;
 import com.t1.intensive.model.entity.Account;
 import com.t1.intensive.model.entity.Transaction;
+import com.t1.intensive.model.enumeration.TransactionStatus;
 import com.t1.intensive.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static com.t1.intensive.util.ConstantsUtil.TRANSACTIONS_ACCEPT;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +28,8 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
 
     private final AccountService accountService;
+
+    private final KafkaTemplate<String, TransactionAcceptDto> kafkaTemplate;
 
     private final TransactionMapper transactionMapper;
     private final AccountMapper accountMapper;
@@ -60,5 +69,39 @@ public class TransactionServiceImpl implements TransactionService {
         if (rowsModified == 0) {
             throw new DataNotFoundException("Record was not found or was already deleted");
         }
+    }
+
+    @Override
+    @Transactional
+    public void requestTransaction(TransactionDto dto) {
+        AccountDto account = accountService.getAccountById(dto.getAccountId());
+        Transaction transaction = transactionMapper.toTransactionEntity(dto);
+        if (account.getBalance().doubleValue() < transaction.getAmount().doubleValue()) {
+            transaction.setStatus(TransactionStatus.REJECTED);
+            throw new DataConflictException(String.format("The requested amount %s cannot be" +
+                    " transferred from the account balance %s", transaction.getAmount(), account.getBalance()));
+        }
+        account.setBalance(account.getBalance().subtract(transaction.getAmount()));
+        accountService.updateAccount(account);
+        TransactionAcceptDto acceptDto = getTransactionAccept(account, transaction);
+        kafkaTemplate.send(TRANSACTIONS_ACCEPT, acceptDto);
+    }
+
+    @Override
+    @Transactional
+    public void updateTransaction(TransactionDto dto) {
+        Transaction transaction = transactionMapper.toTransactionEntity(dto);
+        transactionRepository.save(transaction);
+    }
+
+    private TransactionAcceptDto getTransactionAccept(AccountDto account, Transaction transaction) {
+        return TransactionAcceptDto.builder()
+                .clientId(account.getClientId())
+                .transactionId(transaction.getId())
+                .accountId(account.getId())
+                .timestamp(LocalDateTime.now())
+                .transactionAmount(transaction.getAmount())
+                .accountBalance(account.getBalance())
+                .build();
     }
 }
