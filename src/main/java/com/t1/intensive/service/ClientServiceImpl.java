@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
-
     private final ClientMapper clientMapper;
 
     @Override

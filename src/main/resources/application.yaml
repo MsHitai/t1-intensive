@@ -1,6 +1,10 @@
 spring:
   application:
     name: intensive
+  kafka:
+    bootstrap-servers: localhost:29092
+    consumer:
+      group-id: t1-intensive
 
   datasource:
     url: jdbc:postgresql://localhost:5432/t1_db

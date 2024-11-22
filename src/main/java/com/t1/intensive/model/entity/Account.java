@@ -7,6 +7,8 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+import static com.t1.intensive.util.ConstantsUtil.ACCOUNT_GRAPH;
+
 @Getter
 @ToString
 @Setter
@@ -15,8 +17,8 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "accounts")
+@NamedEntityGraph(name = ACCOUNT_GRAPH, attributeNodes = @NamedAttributeNode("client"))
 public class Account {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

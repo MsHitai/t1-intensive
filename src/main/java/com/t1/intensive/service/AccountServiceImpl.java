@@ -28,7 +28,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional(readOnly = true)
     public AccountDto getAccountById(Long id) {
-        return accountMapper.toAccountDto(accountRepository.findById(id)
+        return accountMapper.toAccountDto(accountRepository.findByIdWithClient(id)
                 .orElseThrow(() -> new DataNotFoundException("Record not found")));
     }
 

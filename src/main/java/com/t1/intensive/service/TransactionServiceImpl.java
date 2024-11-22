@@ -28,7 +28,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional(readOnly = true)
     public TransactionDto getTransactionById(Long id) {
-        return transactionMapper.toTransactionDto(transactionRepository.findById(id).orElseThrow(
+        return transactionMapper.toTransactionDto(transactionRepository.findByIdWithAccount(id).orElseThrow(
                 () -> new DataNotFoundException("Transaction was not found")
         ));
     }

@@ -24,6 +24,11 @@ public class LogDataSourceAspect {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void logError(JoinPoint joinPoint, Exception e) {
         log.error("An error occurred while processing {}", joinPoint.getSignature().getName());
-        service.saveErrorInfo(e, joinPoint.getSignature().toShortString());
+        try {
+            service.sendError(e, joinPoint.getSignature().toShortString());
+        } catch (Exception exc) {
+            log.error("An error occurred while trying to send event to kafka {}", joinPoint.getSignature().getName());
+            service.saveErrorInfo(exc, joinPoint.getSignature().toShortString());
+        }
     }
 }
