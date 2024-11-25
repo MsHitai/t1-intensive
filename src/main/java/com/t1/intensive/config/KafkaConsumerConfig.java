@@ -1,9 +1,6 @@
 package com.t1.intensive.config;
 
-import com.t1.intensive.model.dto.AccountDto;
-import com.t1.intensive.model.dto.ClientShortDto;
-import com.t1.intensive.model.dto.ErrorDto;
-import com.t1.intensive.model.dto.TransactionDto;
+import com.t1.intensive.model.dto.*;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +11,7 @@ import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
+import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import java.util.HashMap;
@@ -36,6 +34,8 @@ public class KafkaConsumerConfig {
         properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        properties.put(ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS, StringDeserializer.class);
+        properties.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class);
         return properties;
     }
 
@@ -61,6 +61,12 @@ public class KafkaConsumerConfig {
     public ConsumerFactory<String, TransactionDto> transactionConsumerFactory() {
         return new DefaultKafkaConsumerFactory<>(consumerConfig(), new StringDeserializer(),
                 new JsonDeserializer<>(TransactionDto.class));
+    }
+
+    @Bean
+    public ConsumerFactory<String, TransactionAcceptDto> transactionAcceptConsumerFactory() {
+        return new DefaultKafkaConsumerFactory<>(consumerConfig(), new StringDeserializer(),
+                new JsonDeserializer<>(TransactionAcceptDto.class));
     }
 
     @Bean
@@ -91,6 +97,14 @@ public class KafkaConsumerConfig {
     public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, TransactionDto>> transactionFactory(
             ConsumerFactory<String, TransactionDto> consumerFactory) {
         ConcurrentKafkaListenerContainerFactory<String, TransactionDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory);
+        return factory;
+    }
+
+    @Bean
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, TransactionAcceptDto>> transactionAcceptFactory(
+            ConsumerFactory<String, TransactionAcceptDto> consumerFactory) {
+        ConcurrentKafkaListenerContainerFactory<String, TransactionAcceptDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
         return factory;
     }

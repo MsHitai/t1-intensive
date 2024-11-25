@@ -1,9 +1,6 @@
 package com.t1.intensive.config;
 
-import com.t1.intensive.model.dto.AccountDto;
-import com.t1.intensive.model.dto.ClientShortDto;
-import com.t1.intensive.model.dto.ErrorDto;
-import com.t1.intensive.model.dto.TransactionDto;
+import com.t1.intensive.model.dto.*;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,6 +51,11 @@ public class KafkaProducerConfig {
     }
 
     @Bean
+    public ProducerFactory<String, TransactionAcceptDto> transactionAcceptDtoProducerFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfig());
+    }
+
+    @Bean
     public KafkaTemplate<String, ClientShortDto> clientKafkaTemplate(ProducerFactory<String, ClientShortDto> producerFactory) {
         return new KafkaTemplate<>(producerFactory);
     }
@@ -70,6 +72,11 @@ public class KafkaProducerConfig {
 
     @Bean
     public KafkaTemplate<String, ErrorDto> errorKafkaTemplate(ProducerFactory<String, ErrorDto> producerFactory) {
+        return new KafkaTemplate<>(producerFactory);
+    }
+
+    @Bean
+    public KafkaTemplate<String, TransactionAcceptDto> transactionAcceptKafkaTemplate(ProducerFactory<String, TransactionAcceptDto> producerFactory) {
         return new KafkaTemplate<>(producerFactory);
     }
 }

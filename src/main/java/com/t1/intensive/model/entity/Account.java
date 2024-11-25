@@ -1,5 +1,6 @@
 package com.t1.intensive.model.entity;
 
+import com.t1.intensive.model.enumeration.AccountStatus;
 import com.t1.intensive.model.enumeration.AccountType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -35,6 +36,13 @@ public class Account {
     @Column(name = "balance", precision = 19, scale = 2)
     private BigDecimal balance;
 
+    @Column(name = "status")
+    @Enumerated(value = EnumType.STRING)
+    private AccountStatus status;
+
+    @Column(name = "frozen_amount", precision = 19, scale = 2)
+    private BigDecimal frozenAmount;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -42,11 +50,13 @@ public class Account {
         Account account = (Account) o;
         return Objects.equals(id, account.id)
                 && accountType == account.accountType
-                && Objects.equals(balance, account.balance);
+                && Objects.equals(balance, account.balance)
+                && Objects.equals(status, account.status)
+                && Objects.equals(frozenAmount, account.frozenAmount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, accountType, balance);
+        return Objects.hash(id, accountType, balance, status, frozenAmount);
     }
 }

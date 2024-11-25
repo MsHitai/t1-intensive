@@ -1,6 +1,7 @@
 package com.t1.intensive.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.t1.intensive.model.enumeration.TransactionStatus;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
@@ -21,4 +22,6 @@ public class TransactionDto implements Serializable {
     private LocalDateTime transactionTime;
     @JsonProperty("account_id")
     private Long accountId;
+    @JsonProperty("status")
+    private TransactionStatus status;
 }

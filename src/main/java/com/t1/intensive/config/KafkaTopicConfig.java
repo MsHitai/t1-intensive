@@ -33,4 +33,20 @@ public class KafkaTopicConfig {
                 .replicas(1)
                 .build();
     }
+
+    @Bean
+    public NewTopic transactionsAccept() {
+        return TopicBuilder.name(TRANSACTIONS_ACCEPT)
+                .partitions(1)
+                .replicas(1)
+                .build();
+    }
+
+    @Bean
+    public NewTopic transactionsResult() {
+        return TopicBuilder.name(TRANSACTIONS_RESULT)
+                .partitions(1)
+                .replicas(1)
+                .build();
+    }
 }

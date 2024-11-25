@@ -58,4 +58,11 @@ public class AccountServiceImpl implements AccountService {
             throw new DataNotFoundException("Record was not found or was already deleted");
         }
     }
+
+    @Override
+    @Transactional
+    public void updateAccount(AccountDto accountDto) {
+        Account account = accountMapper.toAccountEntity(accountDto);
+        accountRepository.save(account);
+    }
 }
