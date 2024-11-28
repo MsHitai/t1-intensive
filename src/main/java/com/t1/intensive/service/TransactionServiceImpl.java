@@ -1,6 +1,5 @@
 package com.t1.intensive.service;
 
-import com.t1.intensive.exception.DataConflictException;
 import com.t1.intensive.exception.DataNotFoundException;
 import com.t1.intensive.mapper.AccountMapper;
 import com.t1.intensive.mapper.TransactionMapper;
@@ -78,8 +77,7 @@ public class TransactionServiceImpl implements TransactionService {
         Transaction transaction = transactionMapper.toTransactionEntity(dto);
         if (account.getBalance().doubleValue() < transaction.getAmount().doubleValue()) {
             transaction.setStatus(TransactionStatus.REJECTED);
-            throw new DataConflictException(String.format("The requested amount %s cannot be" +
-                    " transferred from the account balance %s", transaction.getAmount(), account.getBalance()));
+            transactionRepository.save(transaction);
         }
         account.setBalance(account.getBalance().subtract(transaction.getAmount()));
         accountService.updateAccount(account);
